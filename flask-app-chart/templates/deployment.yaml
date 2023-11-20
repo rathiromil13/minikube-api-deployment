@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app-deployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: flask-app-image
+  template:
+    metadata:
+      labels:
+        app: flask-app-image
+    spec:
+      containers:
+        - name: flask-app-image
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              cpu: "1000m"  # Set the CPU request
+              memory: "1024Mi"  # Set the memory request
+            limits:
+              cpu: "2"  # Set the CPU limit
+              memory: "4086Mi"  # Set the memory limit

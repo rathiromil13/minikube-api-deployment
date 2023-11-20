@@ -1,0 +1,21 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: flask-app-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    # Add any additional annotations as needed
+spec:
+  rules:
+    - host: app.minikube.local  # Use the specified hostname directly
+      http:
+        paths:
+          - path: /  # Example path (root path)
+            pathType: Prefix  # Specify the path type (Prefix or Exact)
+            backend:
+              service:
+                name: flask-app-service  # Replace with your Kubernetes Service name
+                port:
+                  number: 80  # Replace with the service port
+{{- end }}
